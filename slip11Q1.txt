@@ -1,0 +1,85 @@
+SLIP 11
+Q1. Create android application to change Font Size, Color and Font Family of String. 
+------------------------------------------------------------------------------------------
+activity_main.xml
+------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"> 
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/CollegeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SM Joshi"
+        android:textSize="24sp"
+        android:textStyle="normal"
+        android:textColor="@android:color/black"
+        android:padding="10dp"/>
+    <Button
+        android:id="@+id/btnChangeStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Style"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"/>
+
+
+</LinearLayout>
+----------------------------------------------------------------------------------------------------
+MainActivity.java
+----------------------------------------------------------------------------------------------------
+package com.example.myapplication;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    boolean isChanged=false;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView t1=findViewById(R.id.CollegeName);
+        Button b1=findViewById(R.id.btnChangeStyle);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!isChanged)
+                {
+                    t1.setTextColor(Color.RED);
+                    t1.setTextSize(40);
+                    t1.setTypeface(Typeface.SERIF, Typeface.BOLD_ITALIC);
+                    isChanged = true;
+                }
+                else {
+                    t1.setTextColor(Color.BLACK);
+                    t1.setTextSize(25);
+                    t1.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                    isChanged = false;
+                }
+            }
+        });
+
+    }
+}

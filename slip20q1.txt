@@ -1,0 +1,57 @@
+package com.example.slip2q1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+    RadioGroup group1;
+    Button gen;
+    ImageView img;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Set up RadioGroup listener
+        group1 = (RadioGroup) findViewById(R.id.rg1);
+        group1.setOnCheckedChangeListener(this); // Corrected: No need to cast
+
+        img = (ImageView) findViewById(R.id.imageView1);
+
+        // Set up Button listener
+        gen = (Button) findViewById(R.id.button1);
+        gen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add logic here if you want something to happen when the button is clicked
+                // Example: Change image when the button is clicked (or any other action)
+                img.setImageResource(R.drawable.some_image); // Replace with your logic
+            }
+        });
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radioButton1:
+                img.setImageResource(R.drawable.image1);
+                break;
+            case R.id.radioButton2:
+                img.setImageResource(R.drawable.image2);
+                break;
+            case R.id.radioButton3:
+                img.setImageResource(R.drawable.image3);
+                break;
+            default:
+                break;
+        }
+    }
+}

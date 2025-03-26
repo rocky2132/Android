@@ -1,0 +1,72 @@
+
+Slip19 Q1
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle Bulb"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="160dp"/>
+
+    <ImageView
+        android:id="@+id/bulbImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bulb_off"
+        android:layout_below="@id/toggleButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>
+--------------------------------------------------------------------------------
+
+MainActivity.java
+
+package com.example.codingtest;
+
+import android.os.Bundle;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ToggleButton;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView bulbImage;
+    private ToggleButton toggleButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        bulbImage = findViewById(R.id.bulbImage);
+        toggleButton = findViewById(R.id.toggleButton);
+        bulbImage.setImageResource(R.drawable.bulb_off);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    bulbImage.setImageResource(R.drawable.bulb_on);
+                } else {
+                    bulbImage.setImageResource(R.drawable.bulb_off);
+                }
+            }
+        });
+    }
+}
+
+
+Add photos in res> drawable folder
+
+bulb on & off

@@ -1,0 +1,188 @@
+Slip9 Q2
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_id"
+        android:hint="Name" />
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_name"
+        android:hint="Address" />
+
+    <EditText
+        android:id="@+id/et_phno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_address"
+        android:hint="Phone" />
+
+    <Button
+        android:id="@+id/btn_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_phno"
+        android:layout_marginTop="16dp"
+        android:text="Insert" />
+
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_insert"
+        android:layout_marginTop="16dp"
+        android:text="Show All" />
+</RelativeLayout>
+------------------------------------------------------------------------------------------------------
+
+MainActivity.java
+
+package com.example.email;
+
+import android.app.AlertDialog;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    EditText etId, etName, etAddress, etPhone;
+    Button btnInsert, btnShow;
+    DatabaseAdapter dbHelper;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        dbHelper = new DatabaseAdapter(this);
+        etId = findViewById(R.id.et_id);
+        etName = findViewById(R.id.et_name);
+        etAddress = findViewById(R.id.et_address);
+        etPhone = findViewById(R.id.et_phno);
+        btnInsert = findViewById(R.id.btn_insert);
+        btnShow = findViewById(R.id.btn_show);
+
+        btnInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertCompany();
+            }
+        });
+
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAllCompanies();
+            }
+        });
+    }
+
+    private void insertCompany() {
+        long result = dbHelper.insertCompany(
+                Integer.parseInt(etId.getText().toString()),
+                etName.getText().toString(),
+                etAddress.getText().toString(),
+                etPhone.getText().toString());
+    }
+
+    private void showAllCompanies() {
+        Cursor cursor = dbHelper.getAllCompanies();
+        StringBuilder stringBuilder = new StringBuilder();
+        while (cursor.moveToNext()) {
+            stringBuilder.append("ID: ").append(cursor.getInt(0)).append("\n");
+            stringBuilder.append("Name: ").append(cursor.getString(1)).append("\n");
+            stringBuilder.append("Address: ").append(cursor.getString(2)).append("\n");
+            stringBuilder.append("Phone: ").append(cursor.getString(3)).append("\n\n");
+        }
+        cursor.close();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("All Company Details");
+        builder.setMessage(stringBuilder.toString());
+        builder.setPositiveButton("OK", null);
+        builder.show();
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+DatabaseAdapter.java
+
+package com.example.email;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseAdapter extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "CompanyDB";
+    private static final String TABLE_NAME = "Company";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_ADDRESS = "address";
+    private static final String COLUMN_PHONE = "phno";
+
+    public DatabaseAdapter(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + TABLE_NAME +" (" + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_NAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_PHONE + " TEXT)");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    public long insertCompany(int id, String name, String address, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, id);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_ADDRESS, address);
+        values.put(COLUMN_PHONE, phone);
+        long result = db.insert(TABLE_NAME, null, values);
+        db.close();
+        return result;
+    }
+
+    public Cursor getAllCompanies() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+    }
+}
+
+
+INSTRUCTION
+
+Create a new class file by right clicking on project folder or App (com.example.application_name), then name it as DatabaseAdapter
+Click OK and copy-paste the code from DatabaseAdapter.java to this new class file

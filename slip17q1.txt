@@ -1,0 +1,58 @@
+Slip17 Q1
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnCall"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="35dp"
+        android:text="Phone Call Using Intent"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/btnCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Phone Call"
+        android:layout_centerInParent="true"
+        android:onClick="makePhoneCall" />
+
+</RelativeLayout>
+----------------------------------------------------------------------------------
+
+MainActivity.java
+
+package com.example.codingtest;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void makePhoneCall(View view) {
+        String phoneNumber = "9860122542";
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + Uri.encode(phoneNumber)));
+        startActivity(intent);
+    }
+}
