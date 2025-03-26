@@ -1,7 +1,6 @@
 Q2. Create an Android Application that demonstrate DatePicker and DatePickerDailog. 
------------------------------------------------------------------------------------
 activity_main.xml
------------------
+-------------------------------------------------------------------------------------
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,69 +11,77 @@ activity_main.xml
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="match_parent"
-        android:layout_height="238dp" />
-    <Button
-        android:id="@+id/btnSet"
-        android:layout_width="70dp"
-        android:layout_height="31dp"
-        android:onClick="onClick"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="193dp" />
+
+    <TextView
+        android:id="@+id/selectedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Date: "
+        android:textSize="18sp"
+        android:padding="10dp"/>
+
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="wrap_content"
-        android:layout_height="238dp" />
+        android:layout_height="wrap_content"/>
+
     <Button
-        android:id="@+id/btndt"
-        android:layout_width="70dp"
-        android:layout_height="31dp"
-        android:onClick="showDate"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="193dp" />
+        android:id="@+id/btnOpenDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Date Picker Dialog"
+        android:padding="10dp"/>
+
 </LinearLayout>
----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 MainActivity.java
-------------------
-package com.example.myapplication1;
+--------------------------------------------------------------------------------------
+package com.example.myapplication10;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-    TimePicker tp;
-    DatePicker dp;
+    private TextView selectedDate;
+    private Button btnOpenDatePicker;
+    private DatePicker datePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tp=(TimePicker)findViewById(R.id.timePicker);
-// tp.setIs24HourView(true);
-        dp=(DatePicker)findViewById(R.id.datePicker);
+
+        selectedDate = findViewById(R.id.selectedDate);
+        btnOpenDatePicker = findViewById(R.id.btnOpenDatePicker);
+        datePicker = findViewById(R.id.datePicker);
+
+        // Set listener on DatePicker widget
+        datePicker.init(Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                (view, year, month, dayOfMonth) ->
+                        selectedDate.setText("Selected Date: " + dayOfMonth + "/" + (month + 1) + "/" + year));
+
+        // Button to open DatePickerDialog
+        btnOpenDatePicker.setOnClickListener(v -> showDatePickerDialog());
     }
-    public void onClick(View view) {
-        Toast.makeText(getBaseContext(),
-                "Time Selected"+tp.getHour()+":"+tp.getMinute(),
-                Toast.LENGTH_SHORT).show();
-    }
-    public void showDate(View view) {
-        Toast.makeText(getBaseContext(),
-                "date selected"+(dp.getMonth()+1)+
-                        "/"+dp.getDayOfMonth()+
-                        "/"+dp.getYear(),
-                Toast.LENGTH_SHORT).show();
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year1, month1, dayOfMonth) ->
+                        selectedDate.setText("Selected Date: " + dayOfMonth + "/" + (month1 + 1) + "/" + year1),
+                year, month, day);
+        datePickerDialog.show();
     }
 }
-
