@@ -1,5 +1,7 @@
 Slip 6 Q1
-
+Q1. Create a Simple Application Which Send ―Hello! message from one activity to another with 
+help of Button (Use Intent). 
+-----------------------------------------------------------------
 activity_main.xml
 
 <?xml version="1.0" encoding="utf-8"?>
