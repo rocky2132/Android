@@ -1,0 +1,85 @@
+Q1. Create a Simple Application which shows the Life Cycle of Activity. 
+-----------------------------------------------------------------------------
+
+activity_main.xml
+-----------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>
+------------------------
+MainActivity.java
+-----------------
+package com.example.myapplication1;
+
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    String tag="Events";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Log.d(tag, "In oncreate Events");
+    }
+    public void onStart()
+    {
+
+        super.onStart();
+        Log.d(tag,"In the onStart() Events");
+    }
+    public void onRestart()
+    {
+
+        super.onRestart();
+        Log.d(tag,"In the onRestart() Events");
+    }
+    public void onResume()
+    {
+
+        super.onResume();
+        Log.d(tag,"In the onResume() Events");
+    }
+    public void onPause()
+    {
+
+        super.onPause();
+        Log.d(tag,"In the onPause() Events");
+    }
+    public void onStop()
+    {
+
+        super.onStop();
+        Log.d(tag,"In the onStop() Events");
+    }
+    public void onDestroy()
+    {
+
+        super.onDestroy();
+        Log.d(tag,"In the onDestroy() Events");
+    }
+}

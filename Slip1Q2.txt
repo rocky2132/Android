@@ -1,0 +1,80 @@
+Q2. Create an Android Application that demonstrate DatePicker and DatePickerDailog. 
+-----------------------------------------------------------------------------------
+activity_main.xml
+-----------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="238dp" />
+    <Button
+        android:id="@+id/btnSet"
+        android:layout_width="70dp"
+        android:layout_height="31dp"
+        android:onClick="onClick"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="193dp" />
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="238dp" />
+    <Button
+        android:id="@+id/btndt"
+        android:layout_width="70dp"
+        android:layout_height="31dp"
+        android:onClick="showDate"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="193dp" />
+</LinearLayout>
+---------------------------------------------------------------------------------
+MainActivity.java
+------------------
+package com.example.myapplication1;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    TimePicker tp;
+    DatePicker dp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tp=(TimePicker)findViewById(R.id.timePicker);
+// tp.setIs24HourView(true);
+        dp=(DatePicker)findViewById(R.id.datePicker);
+    }
+    public void onClick(View view) {
+        Toast.makeText(getBaseContext(),
+                "Time Selected"+tp.getHour()+":"+tp.getMinute(),
+                Toast.LENGTH_SHORT).show();
+    }
+    public void showDate(View view) {
+        Toast.makeText(getBaseContext(),
+                "date selected"+(dp.getMonth()+1)+
+                        "/"+dp.getDayOfMonth()+
+                        "/"+dp.getYear(),
+                Toast.LENGTH_SHORT).show();
+    }
+}
+
