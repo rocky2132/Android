@@ -17,7 +17,7 @@ main_activity.xml
         android:id="@+id/CollegeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your College Name"
+        android:text="SM Joshi"
         android:textSize="24sp"
         android:textStyle="normal"
         android:textColor="@android:color/black"
