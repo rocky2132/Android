@@ -1,4 +1,5 @@
-Slip6 Q2
+Slip6 Q2Q2. Create an Android Application that Demonstrates ListView and Onclick of List Display the 
+Toast.
 
 activity_main.xml
 
